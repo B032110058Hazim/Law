@@ -8,17 +8,18 @@ using std::cin;
 using std::string;
 using std::endl;
 
+int life = 3;
 
-class DialogueData 
+class DialogueData
 {
 public:
 
-	string *dialogue = new string[30];
+	string* dialogue = new string[30];
 	string name;
 
 	void constructDialogue()
 	{
-		string* dialogue = new string[30];
+		dialogue = new string[30];
 	}
 
 }narratorData, toturialNPCData, playerData, judgeData, prosecutorData, detectiveData, bilalData;
@@ -48,18 +49,18 @@ void clearDialogueArray()
 }
 
 
-void setName()
+void setName(std::string name)
 {
 	//SET NAME
 	toturialNPCData.name = "NPC";
-	playerData.name = "PLAYER";
+	playerData.name = name;
 	detectiveData.name = "DETECTIVE";
 	judgeData.name = "JUDGE";
 	prosecutorData.name = "PROSECUTOR";
 	bilalData.name = "BILAL";
 }
 
-void setDialogueIntro() 
+void setDialogueIntro()
 {
 	//TOTU NPC DATA
 	toturialNPCData.dialogue[0] = "Some quick grubs like sushi and breads";
@@ -85,6 +86,7 @@ void setDialogueIntro()
 	narratorData.dialogue[18] = "Name of Defendant: Bilal bin Rabah (yeah, like the first muadzin in Islam) \n Age: 29 \n In custody because: Framed to be a murderer  ";
 	narratorData.dialogue[19] = "So far so good?";
 	narratorData.dialogue[20] = "Great. I wish you the best of luck on this case and enjoy the journey.";
+	narratorData.dialogue[21] = "What is your name?";
 
 
 	//PLAYER
@@ -94,7 +96,6 @@ void setDialogueIntro()
 
 	//DETECTIVE'S DIALOGUE
 	detectiveData.dialogue[0] = "1. The body is supposedly dead 2 hours, around 2PM before we arrived. the report says he was poisoned from a substance in his asophogus, indicating he is eating a meal";
-
 }
 
 void setDialogueFirst()
@@ -205,7 +206,7 @@ class DialogueBox
 
 public:
 
-	void textBox(DialogueData data,int textNum)
+	void textBox(DialogueData data, int textNum)
 	{
 		cout << "=====================================" << endl;
 		cout << data.name << endl;
@@ -424,6 +425,14 @@ void intro()
 	bool proceed = false;
 
 
+	DB.textBox(narratorData, 21);
+
+	std::string name;
+	std::cout << "NAME: ";
+	std::getline(cin, name);
+	setName(name);
+	system("CLS");
+
 	DB.textBox(narratorData, 0);
 	DB.textBox(narratorData, 1);
 	DB.textBox(narratorData, 2);
@@ -467,8 +476,6 @@ void intro()
 	DB.textBox(narratorData, 18);
 	DB.textBox(narratorData, 19);
 	DB.textBox(narratorData, 20);
-
-
 }
 
 void firstChapter()
@@ -529,6 +536,12 @@ void firstChapter()
 
 	while (!proceed)
 	{
+		//LOSE l
+		if (life == 0)
+		{
+			std::cout << "Haha kalah";
+			return;
+		}
 
 		//1 
 		if (!proceed)
@@ -559,6 +572,7 @@ void firstChapter()
 			}
 			else if (option == 2)
 			{
+				--life;
 				wrongObjection();
 			}
 		}
@@ -575,6 +589,7 @@ void firstChapter()
 			}
 			else if (option == 2)
 			{
+				--life;
 				wrongObjection();
 			}
 		}
@@ -591,6 +606,7 @@ void firstChapter()
 			}
 			else if (option == 2)
 			{
+				--life;
 				wrongObjection();
 			}
 		}
@@ -598,7 +614,7 @@ void firstChapter()
 		//REPEAT
 		if (!proceed)
 		{
-			DB.textBox(playerData,  24);
+			DB.textBox(playerData, 24);
 		}
 	}
 
@@ -623,8 +639,6 @@ void firstChapter()
 
 int main()
 {
-	setName();
-
 	setDialogueIntro();
 	intro();
 	clearDialogueArray();
