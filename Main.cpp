@@ -416,6 +416,7 @@ void wrongObjection()
 	DB.textBox(judgeData, 10);
 	DB.textBox(playerData, 18);
 	DB.textBox(judgeData, 11);
+	cout << "LIFE LEFT: " << life << endl << endl;
 	DB.textBox(playerData, 19);
 }
 
@@ -536,10 +537,15 @@ void firstChapter()
 
 	while (!proceed)
 	{
-		//LOSE l
-		if (life == 0)
+		//LOSE
+		if (life <= 0)
 		{
-			std::cout << "Haha kalah";
+			cout << "=====================================" << endl;
+			cout << "CASE DETAILS" << endl;
+			cout << "=====================================" << endl;
+			cout << endl;
+			cout << "YOU LOST THE CASE!" << endl;
+			cout << "=====================================" << endl;
 			return;
 		}
 
