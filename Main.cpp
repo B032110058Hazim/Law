@@ -548,79 +548,85 @@ void firstChapter()
 			cout << "=====================================" << endl;
 			return;
 		}
+		else
+		{
 
-		//1 
-		if (!proceed)
-		{
-			DB.detailBox(detectiveData, 3, 4, 5, 6);
-			option = DB.statementBox(bilalData, 5);
-			if (option == 1)
+			//1 
+			if (!proceed)
 			{
-				DB.textBox(playerData, 9);
-				DB.textBox(bilalData, 9);
-				DB.textBox(playerData, 10);
+				DB.detailBox(detectiveData, 3, 4, 5, 6);
+				option = DB.statementBox(bilalData, 5);
+				if (option == 1)
+				{
+					DB.textBox(playerData, 9);
+					DB.textBox(bilalData, 9);
+					DB.textBox(playerData, 10);
+				}
+				else if (option == 2)
+				{
+					proceed = true; //CORRECT
+				}
 			}
-			else if (option == 2)
+			//2
+			if (!proceed)
 			{
-				proceed = true; //CORRECT
+				DB.detailBox(detectiveData, 3, 4, 5, 6);
+				option = DB.statementBox(bilalData, 6);
+				if (option == 1)
+				{
+					DB.textBox(playerData, 15);
+					DB.textBox(bilalData, 11);
+					DB.textBox(playerData, 16);
+				}
+				else if (option == 2)
+				{
+					--life;
+					wrongObjection();
+					continue;
+				}
 			}
-		}
-		//2
-		if (!proceed)
-		{
-			DB.detailBox(detectiveData, 3, 4, 5, 6);
-			option = DB.statementBox(bilalData, 6);
-			if (option == 1)
+			//3
+			if (!proceed)
 			{
-				DB.textBox(playerData, 15);
-				DB.textBox(bilalData, 11);
-				DB.textBox(playerData, 16);
+				DB.detailBox(detectiveData, 3, 4, 5, 6);
+				option = DB.statementBox(bilalData, 7);
+				if (option == 1)
+				{
+					DB.textBox(playerData, 20);
+					DB.textBox(bilalData, 12);
+					DB.textBox(playerData, 21);
+				}
+				else if (option == 2)
+				{
+					--life;
+					wrongObjection();
+					continue;
+				}
 			}
-			else if (option == 2)
+			//4
+			if (!proceed)
 			{
-				--life;
-				wrongObjection();
+				DB.detailBox(detectiveData, 3, 4, 5, 6);
+				option = DB.statementBox(bilalData, 8);
+				if (option == 1)
+				{
+					DB.textBox(playerData, 22);
+					DB.textBox(bilalData, 13);
+					DB.textBox(playerData, 23);
+				}
+				else if (option == 2)
+				{
+					--life;
+					wrongObjection();
+					continue;
+				}
 			}
-		}
-		//3
-		if (!proceed)
-		{
-			DB.detailBox(detectiveData, 3, 4, 5, 6);
-			option = DB.statementBox(bilalData, 7);
-			if (option == 1)
-			{
-				DB.textBox(playerData, 20);
-				DB.textBox(bilalData, 12);
-				DB.textBox(playerData, 21);
-			}
-			else if (option == 2)
-			{
-				--life;
-				wrongObjection();
-			}
-		}
-		//4
-		if (!proceed)
-		{
-			DB.detailBox(detectiveData, 3, 4, 5, 6);
-			option = DB.statementBox(bilalData, 8);
-			if (option == 1)
-			{
-				DB.textBox(playerData, 22);
-				DB.textBox(bilalData, 13);
-				DB.textBox(playerData, 23);
-			}
-			else if (option == 2)
-			{
-				--life;
-				wrongObjection();
-			}
-		}
 
-		//REPEAT
-		if (!proceed)
-		{
-			DB.textBox(playerData, 24);
+			//REPEAT
+			if (!proceed)
+			{
+				DB.textBox(playerData, 24);
+			}
 		}
 	}
 
