@@ -8,7 +8,65 @@ using std::cin;
 using std::string;
 using std::endl;
 
+
+//PROTOTYPE
+void paperArt();
+
 int life = 3;
+
+int maze(string m)
+{
+	const int WIDTH = 21; // Height is 11
+	int pos[] = { 11, 6 };
+	string map;
+	auto atPos = [&](int offset) {return ((pos[1] - 1) * WIDTH) + pos[0] + pos[1] + offset - 2; };
+
+	m.erase(0, 1);
+
+	while (true)
+	{
+		system("cls");
+
+		map = m;
+
+		map[atPos(0)] = 'O';
+
+		cout << map;
+
+		switch (_getch())
+		{
+		case 'W': case 'w':
+			if (atPos(-WIDTH) > 0)
+				if (map[atPos(-(WIDTH + 1))] != '#')
+					pos[1] -= 1;
+			break;
+		case 'A': case 'a':
+			if (map[atPos(-1)] != '#' && pos[0] != 1)
+				pos[0] -= 1;
+			break;
+		case 'S': case 's':
+			if (atPos(WIDTH) < 240)
+				if (map[atPos(WIDTH + 1)] != '#')
+					pos[1] += 1;
+			break;
+		case 'D': case 'd':
+			if (map[atPos(1)] != '#' && pos[0] != WIDTH)
+				pos[0] += 1;
+			break;
+		default:
+			break;
+		}
+
+		for (int i = 1; i <= 4; i++)
+		{
+			if (map[atPos(0)] == i + '0')
+			{
+				system("cls");
+				return i;
+			}
+		}
+	}
+}
 
 class DialogueData
 {
@@ -23,6 +81,7 @@ public:
 	}
 
 }narratorData, toturialNPCData, playerData, judgeData, prosecutorData, detectiveData, bilalData;
+
 
 void createDialogueArray()
 {
@@ -48,12 +107,22 @@ void clearDialogueArray()
 	createDialogueArray();
 }
 
-
 void setName(std::string name)
 {
 	//SET NAME
 	toturialNPCData.name = "NPC";
 	playerData.name = name;
+	detectiveData.name = "DETECTIVE";
+	judgeData.name = "JUDGE";
+	prosecutorData.name = "PROSECUTOR";
+	bilalData.name = "BILAL";
+}
+
+void setName()
+{
+	//SET NAME
+	toturialNPCData.name = "NPC";
+	playerData.name = "PLACEHOLDER";
 	detectiveData.name = "DETECTIVE";
 	judgeData.name = "JUDGE";
 	prosecutorData.name = "PROSECUTOR";
@@ -88,7 +157,7 @@ void setDialogueIntro()
 	narratorData.dialogue[20] = "Great. I wish you the best of luck on this case and enjoy the journey.";
 	narratorData.dialogue[21] = "What is your name?";
 
-
+	
 	//PLAYER
 	playerData.dialogue[0] = "HOLD IT!!! What particular food are you buying?";
 	playerData.dialogue[1] = "OBJECTION!!!!! There's a contradiction in the witness statement, Your Honour. The witness met victim for a quick lunch and the report from the detective clearly state there were poison in his food";
@@ -164,7 +233,7 @@ void setDialogueFirst()
 	judgeData.dialogue[9] = "Okay, bilal. let's start the hearing";
 
 	judgeData.dialogue[10] = "Hmmmmm, let's hear it"; //wrong objection
-	judgeData.dialogue[11] = "I can't accept this objection (tolak lifeline)";
+	judgeData.dialogue[11] = "I can't accept this objection";
 
 	judgeData.dialogue[12] = "";
 	judgeData.dialogue[13] = "";
@@ -283,130 +352,17 @@ public:
 		// 1 - Press
 		// 2 - Objection
 	}
-
-
-	/*const int WIDTH;
-	std::string lines[3];
-
-public:
-	DialogueBox()
-		:
-		//WIDTH(118),
-		WIDTH(200),
-		lines{}
-	{};
-
-	~DialogueBox() {};
-
-	void say(std::string a)
-	{
-		try
-		{
-			if (a.length() > WIDTH)
-			{
-				throw(a);
-			}
-
-			std::cout << ">----------------------------------------------------------------------------------------------------------------------<";
-			std::cout << "\n\n" << std::string(WIDTH / 2 - a.length() / 2 + 1, ' ') << a << "\n\n";
-			std::cout << ">----------------------------------------------------------------------------------------------------------------------<";
-		}
-		catch (std::string e)
-		{
-			std::cout << "Too many characters: " << e.substr(0, 25) << "...\n";
-		}
-	}
-
-	void say(std::string a, std::string b)
-	{
-		try
-		{
-			if (a.length() > WIDTH)
-			{
-				throw(a);
-			}
-			if (b.length() > WIDTH)
-			{
-				throw(b);
-			}
-
-			std::cout << ">----------------------------------------------------------------------------------------------------------------------<";
-			std::cout << "\n" << std::string(WIDTH / 2 - a.length() / 2 + 1, ' ') << a << "\n";
-			std::cout << std::string(WIDTH / 2 - b.length() / 2 + 1, ' ') << b << "\n\n";
-			std::cout << ">----------------------------------------------------------------------------------------------------------------------<";
-		}
-		catch (std::string e)
-		{
-			std::cout << "Too many characters: " << e.substr(0, 25) << "...\n";
-		}
-	}
-
-	void say(std::string a, std::string b, std::string c)
-	{
-		try
-		{
-			if (a.length() > WIDTH)
-			{
-				throw(a);
-			}
-			if (b.length() > WIDTH)
-			{
-				throw(b);
-			}
-			if (c.length() > WIDTH)
-			{
-				throw(c);
-			}
-
-			std::cout << ">----------------------------------------------------------------------------------------------------------------------<";
-			std::cout << "\n" << std::string(WIDTH / 2 - a.length() / 2 + 1, ' ') << a << "\n";
-			std::cout << std::string(WIDTH / 2 - b.length() / 2 + 1, ' ') << b << "\n";
-			std::cout << std::string(WIDTH / 2 - c.length() / 2 + 1, ' ') << c << "\n";
-			std::cout << ">----------------------------------------------------------------------------------------------------------------------<";
-		}
-		catch (std::string e)
-		{
-			std::cout << "Too many characters: " << e.substr(0, 25) << "...\n";
-		}
-	}
-	*/
 };
 
-class pressTo
+void pressEnter()
 {
-public:
-
-	void pressE()
+	do
 	{
-		do
-		{
-			cout << '\n' << "Press 'E' to continue...";
-		} while ((_getch() != 'E') && (_getch() != 'e'));
-		system("CLS");
+		cout << '\n' << "Press 'ENTER' to continue...";
+	} while (cin.get() != '\n');
+	system("CLS");
 
-	}
-
-	void pressF()
-	{
-		do
-		{
-			cout << '\n' << "Press 'F' to continue...";
-		} while ((_getch() != 'F') && (_getch() != 'f'));
-		system("CLS");
-
-	}
-
-	void pressEnter()
-	{
-		do
-		{
-			cout << '\n' << "Press 'ENTER' to continue...";
-		} while (cin.get() != '\n');
-		system("CLS");
-
-	}
-
-};
+}
 
 void wrongObjection()
 {
@@ -530,10 +486,11 @@ void firstChapter()
 	DB.textBox(bilalData, 3);
 	DB.textBox(bilalData, 4);
 
-
+	
 	//Bilal give testimony
 	bool proceed = false;
 	int option = 0;
+
 
 	while (!proceed)
 	{
@@ -550,25 +507,22 @@ void firstChapter()
 		}
 		else
 		{
-
 			//1 
 			if (!proceed)
 			{
 				DB.detailBox(detectiveData, 3, 4, 5, 6);
 				option = DB.statementBox(bilalData, 5);
+
+
 				if (option == 1)
 				{
 					DB.textBox(playerData, 9);
 					DB.textBox(bilalData, 9);
 					DB.textBox(playerData, 10);
 				}
-				else if (option == 2)
-				{
-					proceed = true; //CORRECT
-				}
 			}
 			//2
-			if (!proceed)
+			if (!proceed && option != 2)
 			{
 				DB.detailBox(detectiveData, 3, 4, 5, 6);
 				option = DB.statementBox(bilalData, 6);
@@ -578,15 +532,10 @@ void firstChapter()
 					DB.textBox(bilalData, 11);
 					DB.textBox(playerData, 16);
 				}
-				else if (option == 2)
-				{
-					--life;
-					wrongObjection();
-					continue;
-				}
+				
 			}
 			//3
-			if (!proceed)
+			if (!proceed && option != 2)
 			{
 				DB.detailBox(detectiveData, 3, 4, 5, 6);
 				option = DB.statementBox(bilalData, 7);
@@ -596,15 +545,10 @@ void firstChapter()
 					DB.textBox(bilalData, 12);
 					DB.textBox(playerData, 21);
 				}
-				else if (option == 2)
-				{
-					--life;
-					wrongObjection();
-					continue;
-				}
+				
 			}
 			//4
-			if (!proceed)
+			if (!proceed && option != 2)
 			{
 				DB.detailBox(detectiveData, 3, 4, 5, 6);
 				option = DB.statementBox(bilalData, 8);
@@ -614,14 +558,46 @@ void firstChapter()
 					DB.textBox(bilalData, 13);
 					DB.textBox(playerData, 23);
 				}
-				else if (option == 2)
-				{
-					--life;
-					wrongObjection();
-					continue;
-				}
+				
 			}
 
+			if (!proceed)
+			{
+				//IF OBJECTION
+				cout << "                      CHOOSE THE CONTRADICTION                        " << endl;
+				cout << "======================================================================" << endl;
+				cout << "Go to the positions of the numbers (1, 2, 3, 4) to select your answer." << endl;
+				cout << "Control : W, A, S, D." << endl;
+				pressEnter();
+
+				if (option == 2)
+				{		
+					proceed = (maze(R"(
+#### ### ##### ######
+####      1### ######
+####### ###### ######
+#     #            ##
+# ### ####  #########
+#4### ####  ###### 2#
+##### ####     ### ##
+#####      ### ### ##
+#     ########     ##
+# ####    3##########
+#      ##############)") == 1);
+
+					if (!proceed)
+					{
+						--life;
+						wrongObjection();
+						continue;
+
+						option = 0;
+
+					}
+				}
+				
+			}
+			
 			//REPEAT
 			if (!proceed)
 			{
@@ -649,15 +625,35 @@ void firstChapter()
 
 }
 
+
 int main()
 {
+	
 	setDialogueIntro();
 	intro();
 	clearDialogueArray();
-
+	
 	setDialogueFirst();
 	firstChapter();
 	clearDialogueArray();
+
+	if (life > 0)
+	{
+		cout << "3 Hours Later..." << endl;
+		pressEnter();
+
+		paperArt();
+
+		pressEnter();
+
+		cout << "=========================================================" << endl;
+		cout << "Thanks for completing the journey, the trial is now over." << endl;
+		cout << "Stay tune for more inciting cases!" << endl;
+		cout << "=========================================================" << endl;
+
+		pressEnter();
+	}
+	
 	return 0;
 }
 
@@ -674,22 +670,22 @@ void paperArt()
                                                                                                                   
        ___________________________________________________________________________________________________________
                                                                                                                  
-        TAYLOR SWIFT BINTI ABC                                                                       MAY 18, 2020
+        AKHBARI BINTI SUHRAT                                                                       MAY 18, 2020
        ___________________________________________________________________________________________________________
                                                                                                                   
         __________________________________________________                                                        
-       |                                                  |   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-       |                                                  |   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-       |                                                  |   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-       |                                                  |   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-       |                                                  |   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-       |                                                  |   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-       |                                                  |   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-       |                                                  |   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-       |                                                  |   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-       |                                                  |   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-       |                                                  |   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-       |                                                  |   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+       |A Lawyer victoriously defended Bilal on trial of  |   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+       |the century "Bilal Vs Imam" as (Player) proves the|   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+       |innocence of Bilal with cold-heart evidence and   |   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+       |proves the witness testimony to be guilty and     |   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+       |fishy. Bilal, who is accused of killing Professor |   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+       |found not guilty because Imam who is the witness  |   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+       |of this case found guilty by killing Professor    |   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+       |with a fishline.                                  |   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+       |Imam is said to be sentenced to death this coming |   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+       |Friday and will be held at Murky Water Max Prison.|   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+       |He will receive a death penalty under the act of  |   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+       |accusing an innocent people and killing.          |   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
        |                                                  |   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
        |                                                  |   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
        |                                                  |   OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
@@ -722,5 +718,5 @@ void paperArt()
        OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO   |                                                  |
        OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO   |                                                  |
        OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO   |__________________________________________________|
-)" << std::endl;;
+)" << std::endl;
 }
